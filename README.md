@@ -87,8 +87,6 @@ func main() {
 }
 ```
 
-更多使用示例详见 [test/main.go](test/main.go)
-
 ---
 
 **fernqclient** 让 FernQ 通信更简单，欢迎 Star ⭐ 和贡献代码！
