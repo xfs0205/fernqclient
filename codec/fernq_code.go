@@ -17,7 +17,7 @@ const (
 	TypeReceiveMessage     FernqTypeCode = 0xA5 // 165 接收消息
 	TypeRequestMessage     FernqTypeCode = 0xA6 // 166 请求消息
 	TypeResponseMessage    FernqTypeCode = 0xA7 // 167 响应消息
-	TypeScanOnly           FernqTypeCode = 0xA8 // 168 扫描单播，随机选择一个
+	TypeUserScanSingle     FernqTypeCode = 0xA8 // 168 扫描单播，随机选择一个
 	TypeRequestMessageScan FernqTypeCode = 0xA9 // 169 请求消息扫描,随机选择一个发送
 )
 

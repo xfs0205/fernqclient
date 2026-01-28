@@ -267,6 +267,20 @@ func CreateUserScan(from, scan string, message []byte) ([]byte, error) {
 	return Encode(TypeUserScan, mesByte)
 }
 
+// 创建扫描单播
+func CreateUserScanSingle(from, scan string, message []byte) ([]byte, error) {
+	mes := &TransitMessage{
+		From:    from,
+		Target:  scan,
+		Message: message,
+	}
+	mesByte, err := EncodeTransitMessagePB(mes) // 中转消息
+	if err != nil {
+		return nil, err
+	}
+	return Encode(TypeUserScanSingle, mesByte)
+}
+
 // 创建P2P中转
 func CreateP2PRelay(from, target string, message []byte) ([]byte, error) {
 	mes := &TransitMessage{

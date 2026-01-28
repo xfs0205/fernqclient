@@ -187,6 +187,20 @@ func (c *Client) ScanSend(to string, message []byte) error {
 	return c.safeWrite(data)
 }
 
+// ScanOnlySend 扫描发送模式(属于单播模式)，发送消息给指定正则表达式匹配的用户中的随机一个
+func (c *Client) ScanOnlySend(to string, message []byte) error {
+	// 验证正则表达式有效性
+	if _, err := regexp.Compile(to); err != nil {
+		return fmt.Errorf("无效的正则表达式 '%s': %w", to, err)
+	}
+
+	data, err := codec.CreateUserScanSingle(c.ClientName, to, message)
+	if err != nil {
+		return fmt.Errorf("创建扫描发送消息失败: %w", err)
+	}
+	return c.safeWrite(data)
+}
+
 // Read 返回一个只读通道，用于接收来自服务器转发的消息
 //
 // 返回:
