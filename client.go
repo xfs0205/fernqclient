@@ -231,7 +231,7 @@ func (c *Client) Read() <-chan FernqMessage {
 //
 // 返回值:
 //   - error: 连接过程中的错误
-func (c *Client) Connect(serverAddr string, roomName string, passward string) error {
+func (c *Client) Connect(FQC string) error {
 	c.connMu.Lock()
 	defer c.connMu.Unlock()
 
@@ -242,6 +242,11 @@ func (c *Client) Connect(serverAddr string, roomName string, passward string) er
 		return fmt.Errorf("已连接")
 	}
 	c.statusMu.Unlock()
+	// 生成验证信息
+	serverAddr, verify, err := codec.ValidateAndExtractAddress(FQC)
+	if err != nil {
+		return fmt.Errorf("无效的FQC地址: %w", err)
+	}
 
 	// 创建连接
 	conn, err := net.Dial("tcp", serverAddr)
@@ -250,11 +255,6 @@ func (c *Client) Connect(serverAddr string, roomName string, passward string) er
 	}
 	// 连接成功，尝试验证
 	// 创建验证消息
-	verify, err := codec.CreateRoomVerify(c.ClientName, roomName, passward)
-	if err != nil {
-		conn.Close()
-		return fmt.Errorf("创建验证消息失败: %w", err)
-	}
 	_, err = conn.Write(verify)
 	if err != nil {
 		conn.Close()
@@ -314,7 +314,7 @@ func (c *Client) Connect(serverAddr string, roomName string, passward string) er
 
 			// 判断是否是验证结果
 			if msgType == codec.TypeRoomVerifyRes {
-				result, resm, err := codec.ParseRoomVerify(body)
+				result, resm, err := codec.ParseRoomVerifyRes(body)
 				if err != nil {
 					conn.Close()
 					return fmt.Errorf("解析验证结果失败: %w", err)

@@ -25,3 +25,27 @@ func DecodeReceiveMessagePB(b []byte) (*ReceiveMessage, error) {
 	}
 	return &rm, nil
 }
+
+// ========== RequestBody ==========
+func EncodeRequestBodyPB(rb *RequestBody) ([]byte, error) {
+	return proto.Marshal(rb)
+}
+func DecodeRequestBodyPB(b []byte) (*RequestBody, error) {
+	var rb RequestBody
+	if err := proto.Unmarshal(b, &rb); err != nil {
+		return nil, err
+	}
+	return &rb, nil
+}
+
+// ========== ResponseBody ==========
+func EncodeResponseBodyPB(rb *ResponseBody) ([]byte, error) {
+	return proto.Marshal(rb)
+}
+func DecodeResponseBodyPB(b []byte) (*ResponseBody, error) {
+	var rb ResponseBody
+	if err := proto.Unmarshal(b, &rb); err != nil {
+		return nil, err
+	}
+	return &rb, nil
+}
