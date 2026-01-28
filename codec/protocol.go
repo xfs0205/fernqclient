@@ -17,10 +17,10 @@ import (
 // ValidateAndExtractAddress 验证URL格式，返回可直接连接的地址（支持IP和域名）
 // 输入: "fernq://alice@node-a.local/uuid#room?room_pass=secret"
 //
-//	"fernq://alice@192.168.1.100:8080/uuid#room?pass=123"
-//	"fernq://alice@room.example.com/uuid#room?pass=123"
+//	"fernq://alice@192.168.1.100:8080/uuid#room?room_pass=123"
+//	"fernq://alice@room.example.com/uuid#room?room_pass=123"
 //
-// 输出: ("node-a.local:7777", []byte(original), nil)  域名原样返回
+// 输出: ("node-a.local:9147", []byte(original), nil)  域名原样返回
 //
 //	("192.168.1.100:8080", []byte(original), nil) IP+端口
 func ValidateAndExtractAddress(roomURL string) (address string, raw []byte, err error) {

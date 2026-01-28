@@ -237,14 +237,31 @@ func (c *Client) Read() <-chan FernqMessage {
 	return c.readChan
 }
 
-// 连接服务器
+// Connect 连接服务器
+//
 // 参数:
-//   - serverAddr: 要连接的服务器地址
-//   - roomName: 要加入的房间名称
-//   - password: 房间的密码
+//   - FQC: 服务器连接地址，fernq URL 格式
+//
+// URL 格式: fernq://[用户名@]主机[:端口]/UUID#房间名[?room_pass=密码]
+//
+// 示例:
+//
+//	// 本地测试（IP + 默认端口 9147）
+//	"fernq://alice@127.0.0.1/uuid#test?room_pass=123456"
+//
+//	// 指定端口
+//	"fernq://alice@192.168.1.100:9147/uuid#room?room_pass=123"
+//
+//	// 域名连接（生产环境）
+//	"fernq://alice@room.example.com/uuid#room?room_pass=secret"
 //
 // 返回值:
-//   - error: 连接过程中的错误
+//   - error: 连接过程中的错误，nil 表示成功
+//     可能的错误：
+//   - 格式错误：URL 不符合 fernq 协议规范
+//   - 网络错误：无法连接到指定主机
+//   - 认证错误：房间密码错误
+//   - 房间错误：UUID 不存在或房间已关闭
 func (c *Client) Connect(FQC string) error {
 	c.connMu.Lock()
 	defer c.connMu.Unlock()
