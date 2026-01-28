@@ -188,7 +188,7 @@ func (c *Client) ScanSend(to string, message []byte) error {
 }
 
 // ScanOnlySend 扫描发送模式(属于单播模式)，发送消息给指定正则表达式匹配的用户中的随机一个
-func (c *Client) ScanOnlySend(to string, message []byte) error {
+func (c *Client) UserScanSingle(to string, message []byte) error {
 	// 验证正则表达式有效性
 	if _, err := regexp.Compile(to); err != nil {
 		return fmt.Errorf("无效的正则表达式 '%s': %w", to, err)
