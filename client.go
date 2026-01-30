@@ -146,7 +146,7 @@ func (c *Client) readLoop(xxbuff []byte) {
 //   - error: 发送过程中的错误
 func (c *Client) Send(to string, message []byte) error {
 	// 点对点发送：to为目标客户端名称
-	data, err := codec.CreateP2PRelay(c.ClientName, to, message)
+	data, err := codec.CreateP2PRelay(to, message)
 	if err != nil {
 		return fmt.Errorf("创建P2P消息失败: %w", err)
 	}
@@ -160,7 +160,7 @@ func (c *Client) Send(to string, message []byte) error {
 // 返回值:
 //   - error: 发送过程中的错误
 func (c *Client) Broadcast(message []byte) error {
-	data, err := codec.CreateRoomBroadcast(c.ClientName, "room", message)
+	data, err := codec.CreateRoomBroadcast("room", message)
 	if err != nil {
 		return fmt.Errorf("创建广播消息失败: %w", err)
 	}
@@ -180,7 +180,7 @@ func (c *Client) ScanSend(to string, message []byte) error {
 		return fmt.Errorf("无效的正则表达式 '%s': %w", to, err)
 	}
 
-	data, err := codec.CreateUserScan(c.ClientName, to, message)
+	data, err := codec.CreateUserScan(to, message)
 	if err != nil {
 		return fmt.Errorf("创建扫描发送消息失败: %w", err)
 	}
@@ -194,7 +194,7 @@ func (c *Client) UserScanSingle(to string, message []byte) error {
 		return fmt.Errorf("无效的正则表达式 '%s': %w", to, err)
 	}
 
-	data, err := codec.CreateUserScanSingle(c.ClientName, to, message)
+	data, err := codec.CreateUserScanSingle(to, message)
 	if err != nil {
 		return fmt.Errorf("创建扫描发送消息失败: %w", err)
 	}
@@ -242,18 +242,38 @@ func (c *Client) Read() <-chan FernqMessage {
 // 参数:
 //   - FQC: 服务器连接地址，fernq URL 格式
 //
-// URL 格式: fernq://[用户名@]主机[:端口]/UUID#房间名[?room_pass=密码]
+// URL 格式: fernq://connect/主机[:端口]/UUID#房间名[?room_pass=密码]
+//
+// 端口说明：
+//   - IP 地址（IPv4/IPv6）省略端口时，使用默认端口 9147
+//   - 域名省略端口时，保持无端口
+//   - 使用非标准端口时需显式指定，如 :8080
 //
 // 示例:
 //
-//	// 本地测试（IP + 默认端口 9147）
-//	"fernq://alice@127.0.0.1/uuid#test?room_pass=123456"
+//	// IPv4 无端口（默认 9147）
+//	"fernq://connect/192.168.1.100/uuid#room?room_pass=secret"
+//	// 实际连接: 192.168.1.100:9147
 //
-//	// 指定端口
-//	"fernq://alice@192.168.1.100:9147/uuid#room?room_pass=123"
+//	// IPv4 自定义端口
+//	"fernq://connect/192.168.1.100:8080/uuid#room?room_pass=secret"
+//	// 实际连接: 192.168.1.100:8080
 //
-//	// 域名连接（生产环境）
-//	"fernq://alice@room.example.com/uuid#room?room_pass=secret"
+//	// 域名无端口（保持原样）
+//	"fernq://connect/room.example.com/uuid#room?room_pass=secret"
+//	// 实际连接: room.example.com
+//
+//	// 域名自定义端口
+//	"fernq://connect/room.example.com:8080/uuid#room?room_pass=secret"
+//	// 实际连接: room.example.com:8080
+//
+//	// IPv6 无端口（默认 9147）
+//	"fernq://connect/[::1]/uuid#room?room_pass=secret"
+//	// 实际连接: [::1]:9147
+//
+//	// IPv6 自定义端口
+//	"fernq://connect/[::1]:8080/uuid#room?room_pass=secret"
+//	// 实际连接: [::1]:8080
 //
 // 返回值:
 //   - error: 连接过程中的错误，nil 表示成功
@@ -274,7 +294,7 @@ func (c *Client) Connect(FQC string) error {
 	}
 	c.statusMu.Unlock()
 	// 生成验证信息
-	serverAddr, verify, err := codec.ValidateAndExtractAddress(FQC)
+	serverAddr, verify, err := codec.ValidateAndExtractAddress(c.ClientName, FQC)
 	if err != nil {
 		return fmt.Errorf("无效的FQC地址: %w", err)
 	}

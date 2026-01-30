@@ -2,11 +2,16 @@ syntax = "proto3";
 package codec;
 option go_package = "github.com/xfs0205/fernq/internal/codec";
 
+// 注册消息
+message VerifyMessage {
+  string client_id = 1;
+  string token     = 2;
+}
+
 // 中转消息
 message TransitMessage {
-  string from    = 1;
-  string target  = 2;
-  bytes  message = 3;
+  string target  = 1;
+  bytes  message = 2;
 }
 
 // 接收消息

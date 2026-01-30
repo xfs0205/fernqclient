@@ -21,19 +21,71 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 注册消息
+type VerifyMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ClientId      string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
+	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyMessage) Reset() {
+	*x = VerifyMessage{}
+	mi := &file_message_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyMessage) ProtoMessage() {}
+
+func (x *VerifyMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_message_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyMessage.ProtoReflect.Descriptor instead.
+func (*VerifyMessage) Descriptor() ([]byte, []int) {
+	return file_message_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *VerifyMessage) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *VerifyMessage) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
 // 中转消息
 type TransitMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	From          string                 `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
-	Target        string                 `protobuf:"bytes,2,opt,name=target,proto3" json:"target,omitempty"`
-	Message       []byte                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	Target        string                 `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
+	Message       []byte                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TransitMessage) Reset() {
 	*x = TransitMessage{}
-	mi := &file_message_proto_msgTypes[0]
+	mi := &file_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +97,7 @@ func (x *TransitMessage) String() string {
 func (*TransitMessage) ProtoMessage() {}
 
 func (x *TransitMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_message_proto_msgTypes[0]
+	mi := &file_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,14 +110,7 @@ func (x *TransitMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransitMessage.ProtoReflect.Descriptor instead.
 func (*TransitMessage) Descriptor() ([]byte, []int) {
-	return file_message_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *TransitMessage) GetFrom() string {
-	if x != nil {
-		return x.From
-	}
-	return ""
+	return file_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *TransitMessage) GetTarget() string {
@@ -93,7 +138,7 @@ type ReceiveMessage struct {
 
 func (x *ReceiveMessage) Reset() {
 	*x = ReceiveMessage{}
-	mi := &file_message_proto_msgTypes[1]
+	mi := &file_message_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -105,7 +150,7 @@ func (x *ReceiveMessage) String() string {
 func (*ReceiveMessage) ProtoMessage() {}
 
 func (x *ReceiveMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_message_proto_msgTypes[1]
+	mi := &file_message_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -118,7 +163,7 @@ func (x *ReceiveMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReceiveMessage.ProtoReflect.Descriptor instead.
 func (*ReceiveMessage) Descriptor() ([]byte, []int) {
-	return file_message_proto_rawDescGZIP(), []int{1}
+	return file_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ReceiveMessage) GetFrom() string {
@@ -146,7 +191,7 @@ type RequestBody struct {
 
 func (x *RequestBody) Reset() {
 	*x = RequestBody{}
-	mi := &file_message_proto_msgTypes[2]
+	mi := &file_message_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -158,7 +203,7 @@ func (x *RequestBody) String() string {
 func (*RequestBody) ProtoMessage() {}
 
 func (x *RequestBody) ProtoReflect() protoreflect.Message {
-	mi := &file_message_proto_msgTypes[2]
+	mi := &file_message_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -171,7 +216,7 @@ func (x *RequestBody) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequestBody.ProtoReflect.Descriptor instead.
 func (*RequestBody) Descriptor() ([]byte, []int) {
-	return file_message_proto_rawDescGZIP(), []int{2}
+	return file_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RequestBody) GetUrl() string {
@@ -199,7 +244,7 @@ type ResponseBody struct {
 
 func (x *ResponseBody) Reset() {
 	*x = ResponseBody{}
-	mi := &file_message_proto_msgTypes[3]
+	mi := &file_message_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -211,7 +256,7 @@ func (x *ResponseBody) String() string {
 func (*ResponseBody) ProtoMessage() {}
 
 func (x *ResponseBody) ProtoReflect() protoreflect.Message {
-	mi := &file_message_proto_msgTypes[3]
+	mi := &file_message_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -224,7 +269,7 @@ func (x *ResponseBody) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResponseBody.ProtoReflect.Descriptor instead.
 func (*ResponseBody) Descriptor() ([]byte, []int) {
-	return file_message_proto_rawDescGZIP(), []int{3}
+	return file_message_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ResponseBody) GetStatus() int32 {
@@ -245,11 +290,13 @@ var File_message_proto protoreflect.FileDescriptor
 
 const file_message_proto_rawDesc = "" +
 	"\n" +
-	"\rmessage.proto\x12\x05codec\"V\n" +
-	"\x0eTransitMessage\x12\x12\n" +
-	"\x04from\x18\x01 \x01(\tR\x04from\x12\x16\n" +
-	"\x06target\x18\x02 \x01(\tR\x06target\x12\x18\n" +
-	"\amessage\x18\x03 \x01(\fR\amessage\">\n" +
+	"\rmessage.proto\x12\x05codec\"B\n" +
+	"\rVerifyMessage\x12\x1b\n" +
+	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12\x14\n" +
+	"\x05token\x18\x02 \x01(\tR\x05token\"B\n" +
+	"\x0eTransitMessage\x12\x16\n" +
+	"\x06target\x18\x01 \x01(\tR\x06target\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\fR\amessage\">\n" +
 	"\x0eReceiveMessage\x12\x12\n" +
 	"\x04from\x18\x01 \x01(\tR\x04from\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\fR\amessage\"3\n" +
@@ -272,12 +319,13 @@ func file_message_proto_rawDescGZIP() []byte {
 	return file_message_proto_rawDescData
 }
 
-var file_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_message_proto_goTypes = []any{
-	(*TransitMessage)(nil), // 0: codec.TransitMessage
-	(*ReceiveMessage)(nil), // 1: codec.ReceiveMessage
-	(*RequestBody)(nil),    // 2: codec.RequestBody
-	(*ResponseBody)(nil),   // 3: codec.ResponseBody
+	(*VerifyMessage)(nil),  // 0: codec.VerifyMessage
+	(*TransitMessage)(nil), // 1: codec.TransitMessage
+	(*ReceiveMessage)(nil), // 2: codec.ReceiveMessage
+	(*RequestBody)(nil),    // 3: codec.RequestBody
+	(*ResponseBody)(nil),   // 4: codec.ResponseBody
 }
 var file_message_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -298,7 +346,7 @@ func file_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_message_proto_rawDesc), len(file_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

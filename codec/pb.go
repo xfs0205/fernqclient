@@ -2,6 +2,18 @@ package codec
 
 import "google.golang.org/protobuf/proto"
 
+// ========== VerifyMessage ==========
+func EncodeVerifyMessagePB(vm *VerifyMessage) ([]byte, error) {
+	return proto.Marshal(vm)
+}
+func DecodeVerifyMessagePB(b []byte) (*VerifyMessage, error) {
+	var vm VerifyMessage
+	if err := proto.Unmarshal(b, &vm); err != nil {
+		return nil, err
+	}
+	return &vm, nil
+}
+
 // ========== TransitMessage ==========
 func EncodeTransitMessagePB(tm *TransitMessage) ([]byte, error) {
 	return proto.Marshal(tm)
